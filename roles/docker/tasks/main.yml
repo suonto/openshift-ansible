@@ -48,8 +48,67 @@
     enabled: yes
     state: started
   register: start_result
+  ignore_errors: yes
   when: start_result|failed
 
+- name: wait for 60 sec
+  local_action:
+    module: pause
+    seconds: 60
+  when: start_result|failed
+
+- name: enable and start the docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  register: start_result
+  ignore_errors: yes
+  when: start_result|failed
+
+- name: wait for 60 sec
+  local_action:
+    module: pause
+    seconds: 60
+  when: start_result|failed
+
+- name: enable and start the docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  register: start_result
+  ignore_errors: yes
+  when: start_result|failed
+
+- name: wait for 60 sec
+  local_action:
+    module: pause
+    seconds: 60
+  when: start_result|failed
+
+- name: enable and start the docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  register: start_result
+  ignore_errors: yes
+  when: start_result|failed
+
+- name: wait for 60 sec
+  local_action:
+    module: pause
+    seconds: 60
+  when: start_result|failed
+
+- name: enable and start the docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  register: start_result
+  when: start_result|failed
 
 - set_fact:
     docker_service_status_changed: start_result | changed
