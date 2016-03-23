@@ -34,7 +34,7 @@
     enabled: yes
     state: started
   register: start_result
-  ignore_error: yes
+  ignore_errors: yes
 
 - name: wait for 60 sec
   local_action:
