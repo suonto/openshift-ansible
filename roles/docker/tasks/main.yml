@@ -28,9 +28,19 @@
   action: "{{ ansible_pkg_mgr }} name=docker{{ docker_version }} state=present"
   when: not openshift.common.is_atomic | bool
 
-- name: Pause for 10 sec
-  pause:
-    seconds: 10
+- name: enable and start the docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  register: start_result
+  ignore_error: yes
+
+- name: wait for 60 sec
+  local_action:
+    module: pause
+    seconds: 60
+  when: start_result|failed
 
 - name: enable and start the docker service
   service:
@@ -38,6 +48,8 @@
     enabled: yes
     state: started
   register: start_result
+  when: start_result|failed
+
 
 - set_fact:
     docker_service_status_changed: start_result | changed
